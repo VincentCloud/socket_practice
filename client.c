@@ -7,7 +7,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 
-#define PORT 4444
+#define PORT 8000
 
 int main() {
     int clientSocket, ret;

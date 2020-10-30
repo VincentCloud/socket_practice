@@ -2,21 +2,24 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <stdlib.h>
+
 int main() {
-    int pid;
+    int pids[10];
     int rval;
-    if ((pid = fork()) == 0) {
-        printf("child pid = %d\n",pid);
-        if ((pid = fork()) != 0) {
-            printf("child child pid = %d\n",pid);
-            sleep(5);
-            return 10;
-        }
+    if ((pids[0] = fork()) == 0) {
+        sleep(5);
+        exit(10);
     }
+    int res = waitpid(pids[0], &rval, WNOHANG);
     while (1) {
         sleep(1);
-        int res = waitpid(pid, &rval, WNOHANG);
-        printf("parent pid = %d\n",pid);
+        printf("child pid = %d\n",pids[0]);
         printf("Returned value %d\n", WEXITSTATUS(rval));
+        printf("Returned value %d\n", WEXITSTATUS(rval));
+        if (WEXITSTATUS(rval) == 10) {
+            printf("Exiting\n");
+            exit(0);
+        }
     }
 }

@@ -6,8 +6,9 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <wait.h>
 
-#define PORT 4444
+#define PORT 3001
 
 int main() {
 
@@ -52,7 +53,7 @@ int main() {
             exit(1);
         }
 
-        printf("Connection accepted");
+        printf("Connection accepted\n");
 
         if(fork() == 0) {
             close(sockfd);
@@ -70,9 +71,4 @@ int main() {
             }
         }
     }
-
-    close(newSocket);
-
-    return 0;
-
 }
